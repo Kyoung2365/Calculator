@@ -28,7 +28,7 @@ Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), w
 	wxCLOSE_BOX | wxCAPTION) {
 
 	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
-	Display = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
+	Display = new wxTextCtrl(this, wxID_ANY, "0", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
 	Display->Disable();
 	wxBoxSizer* displaySizer = new wxBoxSizer(wxHORIZONTAL);
 	displaySizer->Add(Display, 1, wxEXPAND | wxALL, 0);
@@ -44,14 +44,24 @@ Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), w
 	}
 	addButton = new wxButton(this, ID_ADD_BUTTON, "+", wxDefaultPosition, buttonSize);
 	subButton = new wxButton(this, ID_SUB_BUTTON, "-", wxDefaultPosition, buttonSize);
-	multButton = new wxButton(this, ID_MUL_BUTTON, "*", wxDefaultPosition, buttonSize);
+	multButton = new wxButton(this, ID_MUL_BUTTON, "x", wxDefaultPosition, buttonSize);
 	divButton = new wxButton(this, ID_DIV_BUTTON, "/", wxDefaultPosition, buttonSize);
+
 	clsButton = new wxButton(this, ID_ADD_BUTTON, "C", wxDefaultPosition, buttonSize);
 	equalsButton = new wxButton(this, ID_ADD_BUTTON, "=", wxDefaultPosition, buttonSize);
 	
 	deciButton = new wxButton(this, ID_ADD_BUTTON, ".", wxDefaultPosition, buttonSize);
 	signButton = new wxButton(this, ID_ADD_BUTTON, "+/-", wxDefaultPosition, buttonSize);
+	hexButton = new wxButton(this, ID_ADD_BUTTON, "HEX", wxDefaultPosition, buttonSize);
+	binButton = new wxButton(this, ID_ADD_BUTTON, "BIN", wxDefaultPosition, buttonSize);
+	decButton = new wxButton(this, ID_ADD_BUTTON, "DEC", wxDefaultPosition, buttonSize);
+	modButton = new wxButton(this, ID_ADD_BUTTON, "MOD", wxDefaultPosition, buttonSize);
 	
+	grid->Add(hexButton, 1, wxEXPAND, 0);
+	grid->Add(binButton, 1, wxEXPAND, 0);
+	grid->Add(decButton, 1, wxEXPAND, 0);
+	grid->Add(modButton, 1, wxEXPAND, 0);
+
 	for (int num = 7; num <= 9; ++num) {
 		grid->Add(numButtons[num], 1, wxEXPAND, 0);
 	}

@@ -8,6 +8,10 @@ class Screen : public wxFrame
 private:
 	wxTextCtrl* Display;
 	std::vector<wxButton*> numButtons;
+	wxButton* hexButton;
+	wxButton* binButton;
+	wxButton* decButton;
+	wxButton* modButton;
 	wxButton* deciButton;
 	wxButton* signButton;
 	wxButton* addButton;

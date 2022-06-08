@@ -22,7 +22,11 @@ enum event_ids {
 	ID_MUL_BUTTON = OP_OFFSET + Calc::OP_MUL,
 	ID_DIV_BUTTON = OP_OFFSET + Calc::OP_DIV,
 	ID_CLS_BUTTON,
-	ID_EQUAL_BUTTON
+	ID_EQUAL_BUTTON,
+	ID_HEX_BUTTON,
+	ID_BIN_BUTTON,
+	ID_DEC_BUTTON,
+	ID_MOD_BUTTON
 };
 Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), wxSize(500, 500),
 	wxCLOSE_BOX | wxCAPTION) {
@@ -47,15 +51,15 @@ Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), w
 	multButton = new wxButton(this, ID_MUL_BUTTON, "x", wxDefaultPosition, buttonSize);
 	divButton = new wxButton(this, ID_DIV_BUTTON, "/", wxDefaultPosition, buttonSize);
 
-	clsButton = new wxButton(this, ID_ADD_BUTTON, "C", wxDefaultPosition, buttonSize);
-	equalsButton = new wxButton(this, ID_ADD_BUTTON, "=", wxDefaultPosition, buttonSize);
+	clsButton = new wxButton(this, ID_CLS_BUTTON, "C", wxDefaultPosition, buttonSize);
+	equalsButton = new wxButton(this, ID_EQUAL_BUTTON, "=", wxDefaultPosition, buttonSize);
 	
-	deciButton = new wxButton(this, ID_ADD_BUTTON, ".", wxDefaultPosition, buttonSize);
-	signButton = new wxButton(this, ID_ADD_BUTTON, "+/-", wxDefaultPosition, buttonSize);
-	hexButton = new wxButton(this, ID_ADD_BUTTON, "HEX", wxDefaultPosition, buttonSize);
-	binButton = new wxButton(this, ID_ADD_BUTTON, "BIN", wxDefaultPosition, buttonSize);
-	decButton = new wxButton(this, ID_ADD_BUTTON, "DEC", wxDefaultPosition, buttonSize);
-	modButton = new wxButton(this, ID_ADD_BUTTON, "MOD", wxDefaultPosition, buttonSize);
+	deciButton = new wxButton(this, ID_DECI_BUTTON, ".", wxDefaultPosition, buttonSize);
+	signButton = new wxButton(this, ID_SIGN_BUTTON, "+/-", wxDefaultPosition, buttonSize);
+	hexButton = new wxButton(this, ID_HEX_BUTTON, "HEX", wxDefaultPosition, buttonSize);
+	binButton = new wxButton(this, ID_BIN_BUTTON, "BIN", wxDefaultPosition, buttonSize);
+	decButton = new wxButton(this, ID_DEC_BUTTON, "DEC", wxDefaultPosition, buttonSize);
+	modButton = new wxButton(this, ID_MOD_BUTTON, "MOD", wxDefaultPosition, buttonSize);
 	
 	grid->Add(hexButton, 1, wxEXPAND, 0);
 	grid->Add(binButton, 1, wxEXPAND, 0);

@@ -29,83 +29,11 @@ enum event_ids {
 	ID_MOD_BUTTON
 };
 
-wxBEGIN_EVENT_TABLE(Screen, wxFrame)
-	EVT_BUTTON(ID_0_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_1_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_2_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_3_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_4_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_5_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_6_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_7_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_8_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_9_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_DECI_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_SIGN_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_ADD_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_SUB_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_MUL_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_DIV_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_CLS_BUTTON, Screen::OnButtonClick)
-	EVT_BUTTON(ID_EQUAL_BUTTON, Screen::OnButtonClick)
-wxEND_EVENT_TABLE()
-
 
 void Screen::OnButtonClick(wxCommandEvent& evt){
-	int id = evt.GetId();
-	switch (id) {
-	case ID_0_BUTTON:
-		Display->AppendText("0");
-		break;
-	case ID_1_BUTTON:
-		Display->AppendText("1");
-		break;
-	case ID_2_BUTTON:
-		Display->AppendText("2");
-		break;
-	case ID_3_BUTTON:
-		Display->AppendText("3");
-		break;
-	case ID_4_BUTTON:
-		Display->AppendText("4");
-		break;
-	case ID_5_BUTTON:
-		Display->AppendText("5");
-		break;
-	case ID_6_BUTTON:
-		Display->AppendText("6");
-		break;
-	case ID_7_BUTTON:
-		Display->AppendText("7");
-		break;
-	case ID_8_BUTTON:
-		Display->AppendText("8");
-		break;
-	case ID_9_BUTTON:
-		Display->AppendText("9");
-		break;
-	case ID_DECI_BUTTON:
-		Display->AppendText(".");
-		break;
-	case ID_SIGN_BUTTON:
-		Display->AppendText("-");
-		break;
-	case ID_ADD_BUTTON:
-		Display->AppendText("+");
-		break;
-	case ID_SUB_BUTTON:
-		Display->AppendText("-");
-		break;
-	case ID_MUL_BUTTON:
-		Display->AppendText("*");
-		break;
-	case ID_DIV_BUTTON:
-		Display->AppendText("/");
-		break;
-	case ID_EQUAL_BUTTON:
-		Display->AppendText("=");
-		break;
-	}
+	wxString id = wxString::Format(wxT("%d"), evt.GetId());
+	id.Append(wxString(""));
+	Display->SetLabel(id);
 }
 
 Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), wxSize(500, 500),
@@ -119,16 +47,19 @@ Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), w
 	topSizer->Add(displaySizer, 0, wxEXPAND, 0);
 	topSizer->AddSpacer(10);
 	
-
+	//hexButton->Bind(wxEVT_BUTTON, &Screen::OnButtonClick, this);
+	
 	wxGridSizer* grid = new wxGridSizer(4, 0, 0);
 	wxSize buttonSize(64, 64);
 	numButtons.resize(10);
 	for (int num = 0; num < 10; ++num) {
 		numButtons[num] = new wxButton(this, num, std::to_string(num),
 			wxDefaultPosition, buttonSize);
+		numButtons[num]->Bind(wxEVT_BUTTON, &Screen::OnButtonClick, this);
 	}
 
 	addButton = new wxButton(this, ID_ADD_BUTTON, "+", wxDefaultPosition, buttonSize);
+	addButton->Bind(wxEVT_BUTTON, &Screen::OnButtonClick, this);
 	subButton = new wxButton(this, ID_SUB_BUTTON, "-", wxDefaultPosition, buttonSize);
 	multButton = new wxButton(this, ID_MUL_BUTTON, "x", wxDefaultPosition, buttonSize);
 	divButton = new wxButton(this, ID_DIV_BUTTON, "/", wxDefaultPosition, buttonSize);

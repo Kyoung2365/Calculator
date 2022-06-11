@@ -8,13 +8,13 @@ private:
 	wxTextCtrl* Display = nullptr;
 
 	std::vector<wxButton*> numButtons;
-	wxButton* hexButton = nullptr;
+	wxButton* hexButton;
 	wxButton* binButton = nullptr;
 	wxButton* decButton = nullptr;
 	wxButton* modButton = nullptr;
 	wxButton* deciButton = nullptr;
 	wxButton* signButton = nullptr;
-	wxButton* addButton = nullptr;
+	wxButton* addButton;
 	wxButton* subButton = nullptr;
 	wxButton* multButton = nullptr;
 	wxButton* divButton = nullptr;
@@ -25,7 +25,6 @@ public:
 	Screen();
 	~Screen();
 	void OnButtonClick(wxCommandEvent& evt);
-	wxDECLARE_EVENT_TABLE();
 
 };
 

@@ -1,4 +1,6 @@
 #pragma once
+#include "wx/wx.h"
+
 class Calc
 {
 public:
@@ -8,5 +10,11 @@ public:
 		OP_MUL,
 		OP_DIV
 	};
+
+	void Equals(wxCommandEvent& evt);
+	void Hex(wxCommandEvent& evt);
+	void Bin(wxCommandEvent& evt);
+	void Dec(wxCommandEvent& evt);
+	void Mod(wxCommandEvent& evt);
 };
 

@@ -1,8 +1,5 @@
 #pragma once
-
 #include "wx/wx.h"
-#include <vector>
-#include <string>
 
 class Screen : public wxFrame
 {
@@ -23,31 +20,11 @@ private:
 	wxButton* divButton = nullptr;
 	wxButton* clsButton = nullptr;
 	wxButton* equalsButton = nullptr;
-	
-	std::string preDecimal;
-	std::string postDecimal;
-	bool decimal = false;
-	bool positive = true;
-	double total = 0;
-	double last = 0;
-	int op = -1;
-	bool entryMode = true;
-
-	double getCurrentValue();
-	void updateDisplay();
-	void Clear();
-	void performOp();
-	void showTotal();
-
-	template<int NUM>
-	void onNumButton(wxCommandEvent&);
-	template<int OP>
-	void onOpButton(wxCommandEvent&);
 
 public:
 	Screen();
 	~Screen();
-	
+	void OnButtonClick(wxCommandEvent& evt);
 	wxDECLARE_EVENT_TABLE();
 
 };

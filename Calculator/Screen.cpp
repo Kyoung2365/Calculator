@@ -1,7 +1,5 @@
 #include "Screen.h"
 #include "Calc.h"
-#include <stdexcept>
-#include <cstdint>
 
 const int OP_OFFSET = 1024;
 
@@ -31,102 +29,81 @@ enum event_ids {
 	ID_MOD_BUTTON
 };
 
-#define NUM_EVENT(id) \
-	EVT_BUTTON(id, Screen::onNumButton<id>)
-#define OP_EVENT(id) \
-	EVT_BUTTON(id, Screen::onOpButton<id>)
-
 wxBEGIN_EVENT_TABLE(Screen, wxFrame)
-NUM_EVENT(ID_0_BUTTON)
-NUM_EVENT(ID_1_BUTTON)
-NUM_EVENT(ID_2_BUTTON)
-NUM_EVENT(ID_3_BUTTON)
-NUM_EVENT(ID_4_BUTTON)
-NUM_EVENT(ID_5_BUTTON)
-NUM_EVENT(ID_6_BUTTON)
-NUM_EVENT(ID_7_BUTTON)
-NUM_EVENT(ID_8_BUTTON)
-NUM_EVENT(ID_9_BUTTON)
-OP_EVENT(ID_DECI_BUTTON)
-OP_EVENT(ID_SIGN_BUTTON)
-OP_EVENT(ID_ADD_BUTTON)
-OP_EVENT(ID_SUB_BUTTON)
-OP_EVENT(ID_MUL_BUTTON)
-OP_EVENT(ID_DIV_BUTTON)
-OP_EVENT(ID_CLS_BUTTON)
-OP_EVENT(ID_EQUAL_BUTTON)
+	EVT_BUTTON(ID_0_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_1_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_2_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_3_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_4_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_5_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_6_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_7_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_8_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_9_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_DECI_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_SIGN_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_ADD_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_SUB_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_MUL_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_DIV_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_CLS_BUTTON, Screen::OnButtonClick)
+	EVT_BUTTON(ID_EQUAL_BUTTON, Screen::OnButtonClick)
 wxEND_EVENT_TABLE()
 
-double Screen::getCurrentValue() {
-	try {
-		return std::stod(std::string(Display->GetValue().mb_str()));
-	}
-	catch (const std::invalid_argument& e) {
-		return 0.0;
-	}
-}
 
-void Screen::updateDisplay() {
-	std::string numStr("");
-	if (!positive) {
-		numStr += "-";
-	}
-	numStr += preDecimal;
-	if (decimal) {
-		numStr += "." + postDecimal;
-	}
-	Display->SetValue(numStr);
-}
-
-void Screen::Clear() {
-	preDecimal.assign("");
-	postDecimal.assign("");
-	decimal = false;
-	positive = true;
-}
-
-template <int NUM>
-void Screen::onNumButton(wxCommandEvent&) {
-	entryMode = true;
-	if (!decimal) {
-		preDecimal += std::to_string(NUM);
-	}
-	else {
-		postDecimal += std::to_string(NUM);
-	}
-
-	updateDisplay();
-}
-
-template<int OP>
-void Screen::onOpButton(wxCommandEvent&) {
-	switch (OP) {
+void Screen::OnButtonClick(wxCommandEvent& evt){
+	int id = evt.GetId();
+	switch (id) {
+	case ID_0_BUTTON:
+		Display->AppendText("0");
+		break;
+	case ID_1_BUTTON:
+		Display->AppendText("1");
+		break;
+	case ID_2_BUTTON:
+		Display->AppendText("2");
+		break;
+	case ID_3_BUTTON:
+		Display->AppendText("3");
+		break;
+	case ID_4_BUTTON:
+		Display->AppendText("4");
+		break;
+	case ID_5_BUTTON:
+		Display->AppendText("5");
+		break;
+	case ID_6_BUTTON:
+		Display->AppendText("6");
+		break;
+	case ID_7_BUTTON:
+		Display->AppendText("7");
+		break;
+	case ID_8_BUTTON:
+		Display->AppendText("8");
+		break;
+	case ID_9_BUTTON:
+		Display->AppendText("9");
+		break;
 	case ID_DECI_BUTTON:
-		decimal = true;
-		entryMode = true;
-		updateDisplay();
+		Display->AppendText(".");
 		break;
 	case ID_SIGN_BUTTON:
-		positive = !positive;
-		entryMode = true;
-		updateDisplay();
+		Display->AppendText("-");
 		break;
 	case ID_ADD_BUTTON:
-	case ID_SUB_BUTTON:
-	case ID_MUL_BUTTON:
-	case ID_DIV_BUTTON:
-		if (entryMode) {
-			last = getCurrentValue();
-			entryMode = false;
-		}
+		Display->AppendText("+");
 		break;
-	case ID_CLS_BUTTON:
-		Clear();
-		entryMode = true;
-		total = 0;
-		last = 0;
-		op = -1;
-		updateDisplay();
+	case ID_SUB_BUTTON:
+		Display->AppendText("-");
+		break;
+	case ID_MUL_BUTTON:
+		Display->AppendText("*");
+		break;
+	case ID_DIV_BUTTON:
+		Display->AppendText("/");
+		break;
+	case ID_EQUAL_BUTTON:
+		Display->AppendText("=");
 		break;
 	}
 }
@@ -135,12 +112,13 @@ Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), w
 	wxCLOSE_BOX | wxCAPTION)
 {
 	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
-	Display = new wxTextCtrl(this, wxID_ANY, "0", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
+	Display = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
 	Display->Disable();
 	wxBoxSizer* displaySizer = new wxBoxSizer(wxHORIZONTAL);
 	displaySizer->Add(Display, 1, wxEXPAND | wxALL, 0);
 	topSizer->Add(displaySizer, 0, wxEXPAND, 0);
 	topSizer->AddSpacer(10);
+	
 
 	wxGridSizer* grid = new wxGridSizer(4, 0, 0);
 	wxSize buttonSize(64, 64);
@@ -149,6 +127,7 @@ Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), w
 		numButtons[num] = new wxButton(this, num, std::to_string(num),
 			wxDefaultPosition, buttonSize);
 	}
+
 	addButton = new wxButton(this, ID_ADD_BUTTON, "+", wxDefaultPosition, buttonSize);
 	subButton = new wxButton(this, ID_SUB_BUTTON, "-", wxDefaultPosition, buttonSize);
 	multButton = new wxButton(this, ID_MUL_BUTTON, "x", wxDefaultPosition, buttonSize);

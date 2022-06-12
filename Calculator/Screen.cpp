@@ -155,6 +155,18 @@ void Screen::SignButtonClick(wxCommandEvent&) {
 		op = -1;
 		DisplayUpdate();
 		break;
+	case ID_HEX_BUTTON:
+		Display->AppendText("HEX");
+		break;
+	case ID_BIN_BUTTON:
+		Display->AppendText("BIN");
+		break;
+	case ID_DEC_BUTTON:
+		Display->AppendText("DEC");
+		break;
+	case ID_MOD_BUTTON:
+		Display->AppendText("MOD");
+		break;
 	}
 }
 
@@ -183,6 +195,10 @@ OP_EVENT(ID_MUL_BUTTON)
 OP_EVENT(ID_DIV_BUTTON)
 OP_EVENT(ID_CLS_BUTTON)
 OP_EVENT(ID_EQUAL_BUTTON)
+OP_EVENT(ID_HEX_BUTTON)
+OP_EVENT(ID_BIN_BUTTON)
+OP_EVENT(ID_DEC_BUTTON)
+OP_EVENT(ID_MOD_BUTTON)
 wxEND_EVENT_TABLE()
 
 Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), wxSize(500, 500),

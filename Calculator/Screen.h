@@ -34,19 +34,19 @@ public:
 	Screen();
 	~Screen();
 	
-	template<int NUM>
+	/*template<int NUM>*/
 	void OnButtonClick(wxCommandEvent& evt);
 
 	void Clear();
-	void ClearAndStore();
+	/*void ClearAndStore();*/
 
 	template<int OP>
-	void SignButtonClick(wxCommandEvent& evt);
+	void SignButtonClick(wxCommandEvent&);
 
 	void DisplayUpdate();
-	double getCurrentValue();
+	/*double getCurrentValue();
 	void Total();
-	void PerformOp();
+	void PerformOp();*/
 
 	wxDECLARE_EVENT_TABLE();
 };

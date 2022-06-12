@@ -29,15 +29,15 @@ enum event_ids {
 	ID_MOD_BUTTON
 };
 
-double Screen::getCurrentValue() {
-	try {
-		return std::stod(std::string(Display->GetValue().mb_str()));
-	}
-	catch (const std::invalid_argument& e) {
-		return 0.0;
-	}
-}
-
+//double Screen::getCurrentValue() {
+//	try {
+//		return std::stod(std::string(Display->GetValue().mb_str()));
+//	}
+//	catch (const std::invalid_argument& e) {
+//		return 0.0;
+//	}
+//}
+//
 void Screen::DisplayUpdate() {
 	std::string numStr("");
 	if (!positive) {
@@ -58,62 +58,75 @@ void Screen::Clear() {
 	decimal = false;
 	positive = true;
 }
+//
+//void Screen::ClearAndStore() {
+//	total = getCurrentValue();
+//	Clear();
+//	DisplayUpdate();
+//}
+//
+//void Screen::PerformOp()
+//{
+//	if (op < 0) {
+//
+//	}
+//	else {
+//		total = Calc::Operation(total, last, op);
+//	}
+//}
+//
+//void Screen::Total()
+//{
+//	Clear();
+//	if (total == static_cast<int64_t>(total)) {
+//		Display->SetValue(std::to_string(static_cast<int64_t>(total)));
+//	}
+//	else {
+//		Display->SetValue(std::to_string(total));
+//	}
+//}
+//
+//template<int NUM>
+//void Screen::OnButtonClick(wxCommandEvent&) {
+//	entryMode = true;
+//	if (!decimal) {
+//		preDecimal += std::to_string(NUM);
+//	}
+//	else {
+//		postDecimal += std::to_string(NUM);
+//	}
+//
+//	DisplayUpdate();
+//}
 
-void Screen::ClearAndStore() {
-	total = getCurrentValue();
-	Clear();
-	DisplayUpdate();
-}
-
-void Screen::PerformOp()
-{
-	if (op < 0) {
-
-	}
-	else {
-		total = Calc::Operation(total, last, op);
-	}
-}
-
-void Screen::Total()
-{
-	Clear();
-	if (total == static_cast<int64_t>(total)) {
-		Display->SetValue(std::to_string(static_cast<int64_t>(total)));
-	}
-	else {
-		Display->SetValue(std::to_string(total));
-	}
-}
-
-template<int NUM>
-void Screen::OnButtonClick(wxCommandEvent&) {
-	entryMode = true;
-	if (!decimal) {
-		preDecimal += std::to_string(NUM);
-	}
-	else {
-		postDecimal += std::to_string(NUM);
-	}
-
-	DisplayUpdate();
+void Screen::OnButtonClick(wxCommandEvent& evt) {
+	wxString id = wxString::Format(wxT("%d"), evt.GetId());
+	id.Append(wxString(""));
+	Display->AppendText(id);
 }
 
 template <int OP>
 void Screen::SignButtonClick(wxCommandEvent&) {
 	switch (OP) {
 	case ID_ADD_BUTTON:
+		Display->AppendText("+");
+		break;
 	case ID_SUB_BUTTON:
+		Display->AppendText("-");
+		break;
 	case ID_MUL_BUTTON:
+		Display->AppendText("*");
+		break;
 	case ID_DIV_BUTTON:
-		if (entryMode) {
+		Display->AppendText("/");
+		/*if (entryMode) {
 			last = getCurrentValue();
 			entryMode = false;
 		}
 		PerformOp();
 		ClearAndStore();
 		Total();
-		op = OP - OP_OFFSET;
+		op = OP - OP_OFFSET;*/
 		break;
 	case ID_DECI_BUTTON:
 		decimal = true;
@@ -126,13 +139,14 @@ void Screen::SignButtonClick(wxCommandEvent&) {
 		DisplayUpdate();
 		break;
 	case ID_EQUAL_BUTTON:
-		if (entryMode) {
+		Display->AppendText("=");
+		/*if (entryMode) {
 			last = getCurrentValue();
 			entryMode = false;
 		}
 		PerformOp();
 		Clear();
-		Total();
+		Total();*/
 		break;
 	case ID_CLS_BUTTON:
 		entryMode = true;
@@ -144,23 +158,23 @@ void Screen::SignButtonClick(wxCommandEvent&) {
 	}
 }
 
-#define NUM_EVENT(id) \
-EVT_BUTTON(id, Screen::OnButtonClick<id>)
+//#define NUM_EVENT(id) \
+//EVT_BUTTON(id, Screen::OnButtonClick<id>)
 
 #define OP_EVENT(id) \
 EVT_BUTTON(id, Screen::SignButtonClick<id>)
 
 wxBEGIN_EVENT_TABLE(Screen, wxFrame)
-NUM_EVENT(ID_0_BUTTON)
-NUM_EVENT(ID_1_BUTTON)
-NUM_EVENT(ID_2_BUTTON)
-NUM_EVENT(ID_3_BUTTON)
-NUM_EVENT(ID_4_BUTTON)
-NUM_EVENT(ID_5_BUTTON)
-NUM_EVENT(ID_6_BUTTON)
-NUM_EVENT(ID_7_BUTTON)
-NUM_EVENT(ID_8_BUTTON)
-NUM_EVENT(ID_9_BUTTON)
+EVT_BUTTON(ID_0_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_1_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_2_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_3_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_4_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_5_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_6_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_7_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_8_BUTTON, Screen::OnButtonClick)
+EVT_BUTTON(ID_9_BUTTON, Screen::OnButtonClick)
 OP_EVENT(ID_DECI_BUTTON)
 OP_EVENT(ID_SIGN_BUTTON)
 OP_EVENT(ID_ADD_BUTTON)
@@ -227,8 +241,6 @@ Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), w
 	grid->Add(numButtons[0], 1, wxEXPAND, 0);
 	grid->Add(deciButton, 1, wxEXPAND, 0);
 	grid->Add(addButton, 1, wxEXPAND, 0);
-
-
 
 	grid->AddStretchSpacer();
 	grid->AddStretchSpacer();

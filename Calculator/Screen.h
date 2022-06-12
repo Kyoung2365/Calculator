@@ -40,14 +40,13 @@ public:
 	void Clear();
 	/*void ClearAndStore();*/
 
-	template<int OP>
-	void SignButtonClick(wxCommandEvent&);
+	void SignButtonClick(wxCommandEvent& evt);
 
 	void DisplayUpdate();
 	/*double getCurrentValue();
 	void Total();
 	void PerformOp();*/
 
-	wxDECLARE_EVENT_TABLE();
+	/*wxDECLARE_EVENT_TABLE();*/
 };
 

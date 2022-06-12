@@ -105,9 +105,10 @@ void Screen::OnButtonClick(wxCommandEvent& evt) {
 	Display->AppendText(id);
 }
 
-template <int OP>
-void Screen::SignButtonClick(wxCommandEvent&) {
-	switch (OP) {
+
+void Screen::SignButtonClick(wxCommandEvent& evt) {
+	int sign = evt.GetId();
+	switch (sign) {
 	case ID_ADD_BUTTON:
 		Display->AppendText("+");
 		break;
@@ -161,29 +162,29 @@ void Screen::SignButtonClick(wxCommandEvent&) {
 //#define NUM_EVENT(id) \
 //EVT_BUTTON(id, Screen::OnButtonClick<id>)
 
-#define OP_EVENT(id) \
-EVT_BUTTON(id, Screen::SignButtonClick<id>)
-
-wxBEGIN_EVENT_TABLE(Screen, wxFrame)
-EVT_BUTTON(ID_0_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_1_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_2_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_3_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_4_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_5_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_6_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_7_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_8_BUTTON, Screen::OnButtonClick)
-EVT_BUTTON(ID_9_BUTTON, Screen::OnButtonClick)
-OP_EVENT(ID_DECI_BUTTON)
-OP_EVENT(ID_SIGN_BUTTON)
-OP_EVENT(ID_ADD_BUTTON)
-OP_EVENT(ID_SUB_BUTTON)
-OP_EVENT(ID_MUL_BUTTON)
-OP_EVENT(ID_DIV_BUTTON)
-OP_EVENT(ID_CLS_BUTTON)
-OP_EVENT(ID_EQUAL_BUTTON)
-wxEND_EVENT_TABLE()
+//#define OP_EVENT(id) \
+//EVT_BUTTON(id, Screen::SignButtonClick<id>)
+//
+//wxBEGIN_EVENT_TABLE(Screen, wxFrame)
+//EVT_BUTTON(ID_0_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_1_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_2_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_3_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_4_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_5_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_6_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_7_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_8_BUTTON, Screen::OnButtonClick)
+//EVT_BUTTON(ID_9_BUTTON, Screen::OnButtonClick)
+//OP_EVENT(ID_DECI_BUTTON)
+//OP_EVENT(ID_SIGN_BUTTON)
+//OP_EVENT(ID_ADD_BUTTON)
+//OP_EVENT(ID_SUB_BUTTON)
+//OP_EVENT(ID_MUL_BUTTON)
+//OP_EVENT(ID_DIV_BUTTON)
+//OP_EVENT(ID_CLS_BUTTON)
+//OP_EVENT(ID_EQUAL_BUTTON)
+//wxEND_EVENT_TABLE()
 
 Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), wxSize(500, 500),
 	wxCLOSE_BOX | wxCAPTION)
@@ -202,22 +203,35 @@ Screen::Screen() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(100, 100), w
 	for (int num = 0; num < 10; ++num) {
 		numButtons[num] = new wxButton(this, num, std::to_string(num),
 			wxDefaultPosition, buttonSize);
+		numButtons[num]->Bind(wxEVT_BUTTON, &Screen::OnButtonClick, this);
 	}
 
 	addButton = new wxButton(this, ID_ADD_BUTTON, "+", wxDefaultPosition, buttonSize);
+	addButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	subButton = new wxButton(this, ID_SUB_BUTTON, "-", wxDefaultPosition, buttonSize);
+	subButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	multButton = new wxButton(this, ID_MUL_BUTTON, "x", wxDefaultPosition, buttonSize);
+	multButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	divButton = new wxButton(this, ID_DIV_BUTTON, "/", wxDefaultPosition, buttonSize);
+	divButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 
 	clsButton = new wxButton(this, ID_CLS_BUTTON, "C", wxDefaultPosition, buttonSize);
+	clsButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	equalsButton = new wxButton(this, ID_EQUAL_BUTTON, "=", wxDefaultPosition, buttonSize);
+	equalsButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 
 	deciButton = new wxButton(this, ID_DECI_BUTTON, ".", wxDefaultPosition, buttonSize);
+	deciButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	signButton = new wxButton(this, ID_SIGN_BUTTON, "+/-", wxDefaultPosition, buttonSize);
+	signButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	hexButton = new wxButton(this, ID_HEX_BUTTON, "HEX", wxDefaultPosition, buttonSize);
+	hexButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	binButton = new wxButton(this, ID_BIN_BUTTON, "BIN", wxDefaultPosition, buttonSize);
+	binButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	decButton = new wxButton(this, ID_DEC_BUTTON, "DEC", wxDefaultPosition, buttonSize);
+	decButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 	modButton = new wxButton(this, ID_MOD_BUTTON, "MOD", wxDefaultPosition, buttonSize);
+	modButton->Bind(wxEVT_BUTTON, &Screen::SignButtonClick, this);
 
 	grid->Add(hexButton, 1, wxEXPAND, 0);
 	grid->Add(binButton, 1, wxEXPAND, 0);

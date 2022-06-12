@@ -11,7 +11,8 @@ public:
 		OP_DIV
 	};
 
-	void Equals(wxCommandEvent& evt);
+	static double Operation(double left, double right, int op);
+
 	void Hex(wxCommandEvent& evt);
 	void Bin(wxCommandEvent& evt);
 	void Dec(wxCommandEvent& evt);

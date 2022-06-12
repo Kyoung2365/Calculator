@@ -21,11 +21,33 @@ private:
 	wxButton* clsButton = nullptr;
 	wxButton* equalsButton = nullptr;
 
+	std::string preDecimal;
+	std::string postDecimal;
+	bool decimal = false;
+	bool positive = true;
+	bool entryMode = true;
+	double total = 0;
+	double last = 0;
+	int op = -1;
+
 public:
 	Screen();
 	~Screen();
+	
+	template<int NUM>
 	void OnButtonClick(wxCommandEvent& evt);
-	void Clear(wxCommandEvent&);
+
+	void Clear();
+	void ClearAndStore();
+
+	template<int OP>
 	void SignButtonClick(wxCommandEvent& evt);
+
+	void DisplayUpdate();
+	double getCurrentValue();
+	void Total();
+	void PerformOp();
+
+	wxDECLARE_EVENT_TABLE();
 };
 
